@@ -69,7 +69,7 @@ export default function TestLogsPage() {
       </button>
       <div className="mt-4">
         <p>Session ID: {logger.getSessionId()}</p>
-        <p>Remote logging enabled: {logger.enableRemoteLogging ? 'Yes' : 'No'}</p>
+        <p>Remote logging: Auto-enabled</p>
       </div>
     </div>
   );
