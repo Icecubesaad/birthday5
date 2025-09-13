@@ -1,0 +1,610 @@
+.textEditor {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  padding: 10px;
+  background: white;
+  height: 100%;
+  overflow-y: auto;
+  color: black;
+}
+
+.textEditor pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.photoGallery {
+  height: 100%;
+  background: #000;
+  padding: 20px;
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.galleryPhoto {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.galleryPhoto:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.emptyPhotos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: white;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.emptyPhotos h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.emptyPhotos p {
+  font-size: 16px;
+  color: #cccccc;
+  font-style: italic;
+  margin: 0;
+}
+
+.videoPlayer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoElement {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.bigPlayBtn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: 3px solid white;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.bigPlayBtn:hover {
+  transform: scale(1.1);
+}
+
+.giftContainer {
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.giftMessage {
+  font-size: 14px;
+  color: #333;
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.giftContainer h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #000080;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.giftInput {
+  width: 80%;
+  padding: 8px;
+  font-size: 14px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: white;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.submitBtn {
+  padding: 8px 20px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.submitBtn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.responseMessage {
+  padding: 10px;
+  font-size: 14px;
+  color: #008000;
+  font-weight: bold;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+/* Spotify Player Styles */
+.spotifyPlayer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #191414;
+  color: white;
+  padding: 20px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.albumArt {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #333;
+}
+
+.albumArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.songInfo {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.songTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #1db954;
+}
+
+.songDescription {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #b3b3b3;
+  font-style: italic;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.controlBtn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.controlBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.playBtn {
+  background: #1db954;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.playBtn:hover {
+  background: #1ed760;
+}
+
+.progressSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.timeLabel {
+  font-size: 11px;
+  color: #b3b3b3;
+  min-width: 35px;
+}
+
+.progressSlider {
+  flex: 1;
+  height: 4px;
+  background: #404040;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.progressSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #1db954;
+  cursor: pointer;
+}
+
+.playlist {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.playlist h4 {
+  margin-bottom: 10px;
+  color: white;
+  font-size: 14px;
+}
+
+.playlistItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.playlistItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.playlistItem.active {
+  background: rgba(29, 185, 84, 0.2);
+}
+
+.playlistItem img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.playlistItem span {
+  font-size: 12px;
+  color: #b3b3b3;
+}
+
+/* Letter Window Styles */
+.letterContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.letterImage {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f0f0f0;
+}
+
+.letterImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Image-only container styles */
+.imageOnlyContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.fullSizeImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* Cake Window Styles */
+.cakeContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.wishSection {
+  padding: 15px;
+  background: #f0f0f0;
+  border-top: 1px solid #ccc;
+  text-align: center;
+}
+
+.wishSection h3 {
+  margin-bottom: 10px;
+  color: #000080;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.wishInput {
+  width: 80%;
+  padding: 8px;
+  font-size: 14px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: white;
+  margin-bottom: 10px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.wishButton {
+  padding: 8px 16px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.wishButton:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* Shopping Window Styles */
+.shoppingContainer {
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.shoppingTitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #000080;
+  text-align: center;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.shoppingList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.shoppingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: #f0f0f0;
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemName {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.itemDetails {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.store {
+  font-weight: bold;
+  color: #000080;
+  margin-right: 10px;
+}
+
+.price {
+  color: #008000;
+  font-weight: bold;
+}
+
+.buyButton {
+  padding: 8px 12px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+  white-space: nowrap;
+}
+
+.buyButton:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* Future Dates Window Styles */
+.futureDatesContainer {
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.futureDatesTitle {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #000080;
+  text-align: center;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.dateSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selectLabel {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.categorySelect,
+.ideaSelect {
+  padding: 8px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background: white;
+  font-size: 14px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.selectedIdea {
+  padding: 15px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #f0f0f0;
+  text-align: center;
+}
+
+.selectedIdea h3 {
+  color: #000080;
+  margin-bottom: 10px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.ideaText {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 15px;
+  font-style: italic;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.planButton {
+  padding: 10px 20px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.planButton:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* Date Agenda Styles */
+.dateAgenda {
+  margin-top: 20px;
+  padding: 15px;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #f0f0f0;
+}
+
+.agendaTitle {
+  font-size: 16px;
+  color: #000080;
+  margin-bottom: 15px;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+  font-weight: bold;
+}
+
+.ideaList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ideaItem {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+  padding-left: 15px;
+  position: relative;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+}
+
+.ideaItem::before {
+  content: "•";
+  color: #000080;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}

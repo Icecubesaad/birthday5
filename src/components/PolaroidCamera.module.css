@@ -1,0 +1,73 @@
+.polaroidCamera {
+  position: absolute;
+  bottom: 40px;
+  right: 200px;
+  width: 200px;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.cameraImage {
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+  transition: transform 0.3s;
+}
+
+.polaroidCamera:hover .cameraImage {
+  transform: scale(1.05);
+}
+
+.polaroidCamera:active .cameraImage {
+  transform: scale(0.95);
+}
+
+.polaroidPhotos {
+  position: absolute;
+  bottom: 150px;
+  right: 0px;
+  width: 120px;
+  height: 120px;
+}
+
+.polaroidPhoto {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: white;
+  padding: 5px 5px 15px 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transform-origin: bottom right;
+}
+
+.polaroidPhoto img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 9999;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+@keyframes photoEject {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-100px, 50px) rotate(-15deg);
+  }
+}

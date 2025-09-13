@@ -1,0 +1,47 @@
+.desktopIcon {
+  position: absolute;
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.desktopIcon:hover {
+  background: rgba(0, 0, 255, 0.2);
+  border: 1px dotted #fff;
+}
+
+.whiteBackground {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.iconImage {
+  font-size: 72px;
+  display: block;
+  margin: 0 auto 5px;
+  /* filter: grayscale(100%) brightness(2); */
+}
+
+.iconImg {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.iconLabel {
+  color: black;
+  font-size: 11px;
+  text-shadow: 1px 1px 2px white; 
+  display: block;
+  word-wrap: break-word;
+  font-family: 'MS Sans Serif', 'Chicago', sans-serif;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2px 4px;
+  border-radius: 2px;
+}

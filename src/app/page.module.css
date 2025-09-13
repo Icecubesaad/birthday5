@@ -1,0 +1,12 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-image: url('/assets/background.jpg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24"><path fill="white" stroke="black" d="M4,0 L4,16 L8,12 L11,19 L13,18 L10,11 L14,11 Z"/></svg>'), auto;
+}
