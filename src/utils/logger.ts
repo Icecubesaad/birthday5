@@ -10,6 +10,19 @@ interface LogEntry {
 class Logger {
   private logs: LogEntry[] = [];
   private maxLogs = 100;
+  private originalConsoleLog: typeof console.log;
+  private remoteLoggingEnabled = false;
+  private sessionId: string;
+
+  constructor() {
+    this.originalConsoleLog = console.log;
+    this.sessionId = this.generateSessionId();
+    this.setupConsoleInterception();
+  }
+
+  private generateSessionId(): string {
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
 
   private formatTimestamp(): string {
     const now = new Date();
@@ -22,6 +35,95 @@ class Logger {
       second: '2-digit',
       hour12: false
     });
+  }
+
+  private setupConsoleInterception(): void {
+    if (typeof window !== 'undefined') {
+      // Override console.log to capture all console output
+      console.log = (...args: any[]) => {
+        // Call original console.log
+        this.originalConsoleLog.apply(console, args);
+        
+        // Send to remote logging if enabled
+        this.sendConsoleLogToRemote('log', args);
+      };
+
+      // Also capture console.error, console.warn, etc.
+      const originalError = console.error;
+      console.error = (...args: any[]) => {
+        originalError.apply(console, args);
+        this.sendConsoleLogToRemote('error', args);
+      };
+
+      const originalWarn = console.warn;
+      console.warn = (...args: any[]) => {
+        originalWarn.apply(console, args);
+        this.sendConsoleLogToRemote('warn', args);
+      };
+    }
+  }
+
+  private sendConsoleLogToRemote(level: string, args: any[]): void {
+    if (!this.remoteLoggingEnabled || typeof window === 'undefined') return;
+
+    try {
+      const logData = {
+        sessionId: this.sessionId,
+        timestamp: this.formatTimestamp(),
+        level,
+        message: args.map(arg => 
+          typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+        ).join(' '),
+        userAgent: navigator.userAgent,
+        url: window.location.href
+      };
+
+      // Send to webhook or logging service
+      this.sendToWebhook(logData);
+      
+      // Also store locally as backup
+      this.storeConsoleLogLocally(logData);
+    } catch (e) {
+      this.originalConsoleLog('Failed to send remote log:', e);
+    }
+  }
+
+  private async sendToWebhook(logData: any): Promise<void> {
+    try {
+      // Send to our API endpoint
+      const response = await fetch('/api/logs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(logData)
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        // Log the response to show it worked
+        this.originalConsoleLog('✅ Log sent to server:', result.message);
+      }
+    } catch (e) {
+      // Silently fail to avoid infinite loops
+    }
+  }
+
+  private storeConsoleLogLocally(logData: any): void {
+    try {
+      const existingLogs = localStorage.getItem('remote_console_logs');
+      const logs = existingLogs ? JSON.parse(existingLogs) : [];
+      logs.unshift(logData);
+      
+      // Keep only last 50 console logs
+      if (logs.length > 50) {
+        logs.splice(50);
+      }
+      
+      localStorage.setItem('remote_console_logs', JSON.stringify(logs));
+    } catch (e) {
+      // Ignore storage errors
+    }
   }
 
   private addLog(category: LogEntry['category'], event: string, details: Record<string, unknown> = {}): void {
@@ -185,6 +287,35 @@ class Logger {
     this.addLog('system', 'Logs cleared', { action: 'clear_logs' });
   }
 
+  // Enable/disable remote logging
+  enableRemoteLogging(): void {
+    this.remoteLoggingEnabled = true;
+    this.addLog('system', 'Remote logging enabled', { sessionId: this.sessionId });
+  }
+
+  disableRemoteLogging(): void {
+    this.remoteLoggingEnabled = false;
+    this.addLog('system', 'Remote logging disabled', {});
+  }
+
+  // Get console logs from localStorage
+  getConsoleLogsFromStorage(): any[] {
+    if (typeof window !== 'undefined') {
+      try {
+        const logs = localStorage.getItem('remote_console_logs');
+        return logs ? JSON.parse(logs) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  }
+
+  // Get current session ID
+  getSessionId(): string {
+    return this.sessionId;
+  }
+
   // Load logs from localStorage (client-side only)
   loadLogs(): void {
     if (typeof window !== 'undefined') {
@@ -208,5 +339,11 @@ const logger = new Logger();
 
 // Load existing logs on initialization
 logger.loadLogs();
+
+// Auto-enable remote logging for debugging
+if (typeof window !== 'undefined') {
+  logger.enableRemoteLogging();
+  console.log('🔥 Remote logging auto-enabled. Session ID:', logger.getSessionId());
+}
 
 export default logger;
