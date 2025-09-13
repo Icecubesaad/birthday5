@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Ayeeza's birthday",
-  description: "A special retro birthday website celebrating Ayeeza with music, memories, and love",
+  description: "For the love of my life",
 };
 
 export default function RootLayout({
