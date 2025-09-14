@@ -2,14 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getLogsCollection, MongoLogEntry } from '@/utils/mongodb';
 
 export async function POST(request: NextRequest) {
-  // Always log that the endpoint was hit
-  console.log('🔥 API ENDPOINT HIT - /api/logs');
+  console.log('🔥 API ENDPOINT HIT - /api/app-logs');
   
   try {
     const logData = await request.json();
     
     // Skip window position logs as requested
-    if (logData.message && logData.message.includes('Window moved:')) {
+    if (logData.event && logData.event.includes('Window moved:')) {
       return NextResponse.json({ 
         success: true, 
         message: 'Position log skipped',
@@ -18,58 +17,51 @@ export async function POST(request: NextRequest) {
     }
     
     // Print to console for debugging
-    console.log('=== LOGGING TO MONGODB ===');
+    console.log('=== STORING APP LOG TO MONGODB ===');
     console.log(`Session: ${logData.sessionId}`);
+    console.log(`Event: ${logData.event}`);
+    console.log(`Category: ${logData.category}`);
     console.log(`Timestamp: ${logData.timestamp}`);
-    console.log(`Level: ${logData.level?.toUpperCase() || 'UNKNOWN'}`);
-    console.log(`Message: ${logData.message}`);
-    console.log('=========================');
+    console.log('==================================');
     
     // Prepare MongoDB document
     const mongoLogEntry: MongoLogEntry = {
       sessionId: logData.sessionId,
       timestamp: new Date(logData.timestamp || new Date()),
-      event: logData.message || 'Unknown event',
-      category: 'console',
-      details: {
-        level: logData.level,
-        originalMessage: logData.message,
-        url: logData.url
-      },
+      event: logData.event,
+      category: logData.category,
+      details: logData.details || {},
       userAgent: logData.userAgent,
-      url: logData.url,
-      level: logData.level,
-      message: logData.message
+      url: logData.url
     };
 
     // Store in MongoDB
     const collection = await getLogsCollection();
     const result = await collection.insertOne(mongoLogEntry);
     
-    console.log(`✅ Log stored in MongoDB with ID: ${result.insertedId}`);
+    console.log(`✅ App log stored in MongoDB with ID: ${result.insertedId}`);
     
     return NextResponse.json({ 
       success: true, 
-      message: 'Log stored in MongoDB successfully',
+      message: 'App log stored in MongoDB successfully',
       sessionId: logData.sessionId,
       mongoId: result.insertedId,
       receivedAt: new Date().toISOString()
     });
   } catch (error) {
-    console.error('❌ Error processing log:', error);
+    console.error('❌ Error processing app log:', error);
     return NextResponse.json({ 
       success: false, 
-      error: 'Failed to process log',
+      error: 'Failed to process app log',
       details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }
 
-// Add a GET endpoint for testing
 export async function GET() {
-  console.log('🔥 API ENDPOINT TEST - /api/logs GET');
+  console.log('🔥 API ENDPOINT TEST - /api/app-logs GET');
   return NextResponse.json({ 
-    message: 'Logs API is working',
+    message: 'App Logs API is working',
     timestamp: new Date().toISOString()
   });
 }

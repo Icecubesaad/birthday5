@@ -11,7 +11,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
     "autoprefixer": "^10.4.21",
+    "mongodb": "^6.19.0",
     "next": "14.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

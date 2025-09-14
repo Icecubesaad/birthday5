@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styles from './LockScreen.module.css';
+import logger from '@/utils/logger';
 
 interface LockScreenProps {
   onUnlock: () => void;
@@ -23,8 +24,10 @@ const LockScreen = ({ onUnlock }: LockScreenProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === 'pearl') {
+      logger.systemUnlocked();
       onUnlock();
     } else {
+      logger.systemLoginFailed(password.length);
       setIsError(true);
       setPassword('');
       setTimeout(() => setIsError(false), 2000);

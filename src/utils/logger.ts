@@ -109,6 +109,41 @@ class Logger {
     }
   }
 
+  private async sendAppLogToMongoDB(logEntry: LogEntry): Promise<void> {
+    try {
+      // Skip window move logs as requested
+      if (logEntry.event.includes('Window moved:')) {
+        return;
+      }
+
+      const logData = {
+        sessionId: this.sessionId,
+        timestamp: logEntry.timestamp,
+        event: logEntry.event,
+        category: logEntry.category,
+        details: logEntry.details,
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+        url: typeof window !== 'undefined' ? window.location.href : undefined
+      };
+
+      const response = await fetch('/api/app-logs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(logData)
+      });
+      
+      const result = await response.json();
+      if (result.success && !result.skipped) {
+        this.originalConsoleLog('✅ App log sent to MongoDB:', result.mongoId);
+      }
+    } catch (e) {
+      // Silently fail to avoid infinite loops
+      this.originalConsoleLog('Failed to send app log to MongoDB:', e);
+    }
+  }
+
   private storeConsoleLogLocally(logData: any): void {
     try {
       const existingLogs = localStorage.getItem('remote_console_logs');
@@ -143,6 +178,11 @@ class Logger {
 
     // Console logging for development
     console.log(`[${category.toUpperCase()}] ${event}`, details);
+
+    // Send to MongoDB API if remote logging is enabled
+    if (this.remoteLoggingEnabled && typeof window !== 'undefined') {
+      this.sendAppLogToMongoDB(logEntry);
+    }
 
     // Store in localStorage for persistence (client-side only)
     if (typeof window !== 'undefined') {
@@ -257,6 +297,14 @@ class Logger {
   systemUnlocked(): void {
     this.addLog('system', 'Lock screen unlocked', {
       action: 'unlock'
+    });
+  }
+
+  systemLoginFailed(attemptedPasswordLength: number): void {
+    this.addLog('system', 'Failed login attempt', {
+      attemptedPassword: attemptedPasswordLength > 0 ? `${attemptedPasswordLength} characters` : 'empty',
+      timestamp: new Date().toISOString(),
+      action: 'login_failed'
     });
   }
 
