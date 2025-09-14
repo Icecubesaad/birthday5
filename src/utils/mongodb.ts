@@ -1,4 +1,4 @@
-import { MongoClient, Db, Collection } from 'mongodb';
+import { MongoClient, Db, Collection, ObjectId } from 'mongodb';
 
 const uri = process.env.MONGODB_URI || '';
 const dbName = 'birthday_logs';
@@ -42,7 +42,7 @@ export async function closeConnection(): Promise<void> {
 
 // Log entry interface for MongoDB
 export interface MongoLogEntry {
-  _id?: string;
+  _id?: ObjectId;
   sessionId: string;
   timestamp: Date;
   event: string;
